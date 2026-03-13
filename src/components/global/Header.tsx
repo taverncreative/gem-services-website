@@ -20,10 +20,10 @@ export const Header = () => {
   }
   return (
     <header className="sticky top-0 z-50 bg-white shadow-sm w-full py-[2%]">
-      <div className="max-w-[1600px] w-[95%] xl:w-[90%] mx-auto px-6 flex items-center justify-between">
+      <div className="max-w-[1600px] w-[98%] xl:w-[95%] 2xl:w-[90%] mx-auto px-4 lg:px-6 flex flex-nowrap items-center justify-between gap-4 xl:gap-8">
         
         {/* Left: Logo (Column 1) */}
-        <div className="flex-1 flex justify-start items-center">
+        <div className="flex shrink-0 justify-start items-center">
           <Link href="/" className="flex items-center gap-3 xl:gap-4 shrink-0 group">
             <Image 
               src="/icon.svg" 
@@ -41,7 +41,7 @@ export const Header = () => {
 
         {/* Centre: Navigation (Column 2) */}
         <nav aria-label="Main Navigation" className="hidden xl:flex shrink-0 justify-center">
-          <ul className="flex items-center justify-center gap-5 xl:gap-8 font-medium text-neutral-dark text-sm xl:text-base">
+          <ul className="flex items-center justify-center gap-4 xl:gap-6 2xl:gap-8 font-medium text-neutral-dark text-sm lg:text-base">
             <li><Link href="/" className={`hover:text-brand-primary transition-colors whitespace-nowrap ${isActive('/') ? 'text-brand-primary' : ''}`}>Home</Link></li>
             
             {/* Services Dropdown */}
@@ -74,16 +74,16 @@ export const Header = () => {
         </nav>
 
         {/* Right: Primary CTA (Desktop) (Column 3) */}
-        <div className="hidden xl:flex flex-1 items-center justify-end gap-6">
+        <div className="hidden xl:flex shrink-0 items-center justify-end gap-4 2xl:gap-6">
           <div className="flex flex-col items-end justify-center">
             <a href="tel:07400372204" className="text-base xl:text-lg font-bold text-neutral-dark hover:text-brand-primary transition-colors leading-none tracking-tight whitespace-nowrap">
               07400 372204
             </a>
-            <span className="hidden xl:block text-[11px] font-medium text-neutral-muted mt-1 uppercase tracking-wider whitespace-nowrap">Emergency callouts available</span>
+            <span className="hidden 2xl:block text-[11px] font-medium text-neutral-muted mt-1 uppercase tracking-wider whitespace-nowrap">Emergency callouts available</span>
           </div>
           <Link 
             href="/contact"
-            className="bg-brand-primary text-white rounded-md px-4 xl:px-6 py-2 xl:py-2.5 font-bold hover:bg-brand-primary-dark hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 text-sm whitespace-nowrap"
+            className="bg-brand-primary text-white rounded-md px-5 2xl:px-6 py-2.5 font-bold hover:bg-brand-primary-dark hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 text-sm whitespace-nowrap"
           >
             Get a Quote
           </Link>
