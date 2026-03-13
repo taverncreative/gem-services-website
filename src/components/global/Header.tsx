@@ -40,7 +40,7 @@ export const Header = () => {
         </div>
 
         {/* Centre: Navigation (Column 2) */}
-        <nav aria-label="Main Navigation" className="hidden lg:flex shrink-0 justify-center">
+        <nav aria-label="Main Navigation" className="hidden xl:flex shrink-0 justify-center">
           <ul className="flex items-center justify-center gap-5 xl:gap-8 font-medium text-neutral-dark text-sm xl:text-base">
             <li><Link href="/" className={`hover:text-brand-primary transition-colors whitespace-nowrap ${isActive('/') ? 'text-brand-primary' : ''}`}>Home</Link></li>
             
@@ -74,7 +74,7 @@ export const Header = () => {
         </nav>
 
         {/* Right: Primary CTA (Desktop) (Column 3) */}
-        <div className="hidden lg:flex flex-1 items-center justify-end gap-4 xl:gap-6">
+        <div className="hidden xl:flex flex-1 items-center justify-end gap-6">
           <div className="flex flex-col items-end justify-center">
             <a href="tel:07400372204" className="text-base xl:text-lg font-bold text-neutral-dark hover:text-brand-primary transition-colors leading-none tracking-tight whitespace-nowrap">
               07400 372204
@@ -90,7 +90,7 @@ export const Header = () => {
         </div>
 
         {/* Mobile Header elements */}
-        <div className="lg:hidden flex-1 flex items-center justify-end gap-3">
+        <div className="xl:hidden flex-1 flex items-center justify-end gap-3">
           <a 
             href="tel:07400372204" 
             className="flex items-center justify-center bg-brand-primary hover:bg-brand-primary-dark hover:-translate-y-0.5 hover:shadow-md transition-all duration-300 text-white min-h-[48px] px-4 rounded-md"
@@ -110,7 +110,7 @@ export const Header = () => {
 
       {/* Mobile Menu Overlay */}
       <div 
-        className={`fixed inset-0 bg-neutral-dark/80 z-50 transition-opacity duration-300 lg:hidden ${
+        className={`fixed inset-0 bg-neutral-dark/80 z-50 transition-opacity duration-300 xl:hidden ${
           isMobileMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
         aria-hidden="true"
@@ -119,7 +119,7 @@ export const Header = () => {
 
       {/* Mobile Menu Drawer */}
       <div 
-        className={`fixed top-0 right-0 h-full w-[85%] max-w-sm bg-white z-50 shadow-2xl transition-transform duration-300 ease-out lg:hidden overflow-y-auto flex flex-col ${
+        className={`fixed top-0 right-0 h-full w-[85%] max-w-sm bg-white z-50 shadow-2xl transition-transform duration-300 ease-out xl:hidden overflow-y-auto flex flex-col ${
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
         role="dialog"
