@@ -53,7 +53,7 @@ export const ContactForm = () => {
       {status === 'success' ? (
         <div className="p-6 bg-green-50 text-green-800 rounded-md border border-green-200">
           <h3 className="font-bold text-lg mb-2">Message Sent Successfully!</h3>
-          <p>Thank you. Your pest control request has been received and our team will contact you shortly.</p>
+          <p>Thank you. Your pest control request has been received and we will contact you shortly.</p>
           <button 
             onClick={() => setStatus('idle')}
             className="mt-4 text-sm font-medium underline text-green-700 hover:text-green-900"

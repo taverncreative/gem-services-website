@@ -1,13 +1,10 @@
 import { NextResponse } from 'next/server';
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
 // Simple in-memory rate limiting map (IP -> array of timestamps)
 const rateLimitMap = new Map<string, number[]>();
 const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
 const MAX_REQUESTS_PER_WINDOW = 5;
-
-// Initialize Resend
-const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy');
 
 export async function POST(req: Request) {
   try {
@@ -43,11 +40,22 @@ export async function POST(req: Request) {
       );
     }
 
-    const contactEmail = process.env.CONTACT_EMAIL || 'nate@gemservices.uk';
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || 'smtp.livemail.co.uk',
+      port: process.env.SMTP_PORT ? parseInt(process.env.SMTP_PORT) : 587,
+      secure: false, // true for 465, false for other ports. TLS is often upgraded with STARTTLS on 587
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+      },
+    });
 
-    const { data, error } = await resend.emails.send({
-      from: `GEM Services <${contactEmail}>`,
-      to: [contactEmail],
+    const fromEmail = process.env.FROM_EMAIL || 'nate@gemservices.uk';
+    const toEmail = process.env.TO_EMAIL || 'johnlallylally@gmail.com';
+
+    const mailOptions = {
+      from: `GEM Services <${fromEmail}>`,
+      to: [toEmail],
       replyTo: email || undefined,
       subject: `New Pest Control Request – GEM Services`,
       text: `Name: ${name}\nPhone: ${phone}\nEmail: ${email || 'Not provided'}\nTown: ${location || 'Not provided'}\nPest Problem: ${pest || 'Not specified'}\n\nMessage:\n${message}`,
@@ -61,15 +69,9 @@ export async function POST(req: Request) {
         <h3>Message:</h3>
         <p>${message.replace(/\n/g, '<br/>')}</p>
       `,
-    });
+    };
 
-    if (error) {
-       console.error('Email sending error:', error);
-       return NextResponse.json(
-        { error: 'Failed to send message via Resend' },
-        { status: 500 }
-      );
-    }
+    await transporter.sendMail(mailOptions);
 
     return NextResponse.json({ success: true, message: 'Message sent successfully' });
   } catch (error) {
