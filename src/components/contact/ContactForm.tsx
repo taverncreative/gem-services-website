@@ -20,6 +20,7 @@ export const ContactForm = () => {
       location: formData.get('location'),
       pest: formData.get('pest'),
       message: formData.get('message'),
+      honeypot: formData.get('honeypot'), // anti-bots
     }
 
     try {
@@ -41,7 +42,7 @@ export const ContactForm = () => {
     } catch (error) {
       console.error('Error submitting form:', error)
       setStatus('error')
-      setErrorMessage('Failed to send message. Please try again or call us directly.')
+      setErrorMessage('Sorry, there was a problem sending your request. Please call us on 07400 372204.')
     }
   }
 
@@ -52,7 +53,7 @@ export const ContactForm = () => {
       {status === 'success' ? (
         <div className="p-6 bg-green-50 text-green-800 rounded-md border border-green-200">
           <h3 className="font-bold text-lg mb-2">Message Sent Successfully!</h3>
-          <p>Thank you for getting in touch. We will get back to you shortly.</p>
+          <p>Thank you. Your pest control request has been received and our team will contact you shortly.</p>
           <button 
             onClick={() => setStatus('idle')}
             className="mt-4 text-sm font-medium underline text-green-700 hover:text-green-900"
@@ -62,6 +63,13 @@ export const ContactForm = () => {
         </div>
       ) : (
         <form className="space-y-4" onSubmit={handleSubmit}>
+          
+          {/* Honeypot field (hidden from users, targeted by bots) */}
+          <div className="hidden" aria-hidden="true">
+            <label htmlFor="honeypot">Leave this field empty</label>
+            <input type="text" id="honeypot" name="honeypot" tabIndex={-1} autoComplete="off" />
+          </div>
+
           {status === 'error' && (
             <div className="p-4 bg-red-50 text-red-800 rounded-md text-sm">
               {errorMessage}

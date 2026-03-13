@@ -11,11 +11,18 @@ const nextConfig: NextConfig = {
     return config
   },
   async redirects() {
-    return Object.entries(seoRedirects).map(([source, destination]) => ({
-      source,
-      destination,
-      permanent: true,
-    }))
+    return [
+      ...Object.entries(seoRedirects).map(([source, destination]) => ({
+        source,
+        destination,
+        permanent: true,
+      })),
+      {
+        source: '/guides/:category',
+        destination: '/guides', // Redirect all category paths back to the main guides hub
+        permanent: true,
+      }
+    ]
   },
 }
 

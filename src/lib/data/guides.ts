@@ -29,6 +29,88 @@ export type Guide = {
 
 export const guides: Guide[] = [
   {
+    "category": "wasps",
+    "slug": "how-to-get-rid-of-a-wasp-nest",
+    "title": "How To Get Rid Of A Wasp Nest",
+    "intro": "Learn the fastest and safest methods to permanently destroy active wasp nests on your property without risking dangerous swarm attacks or painful stings.",
+    "sections": [
+      {
+        "heading": "Identifying a Wasp Nest",
+        "content": "Wasp nests are typically constructed from chewed wood pulp and saliva, giving them a distinct papery grey appearance. They are often found in sheltered access points such as loft spaces, wall cavities, roof eaves, and outdoor sheds. If you notice a constant stream of wasps entering and exiting a specific hole in your roofline or brickwork, especially during summer months, there is highly likely a mature nest hidden behind it."
+      },
+      {
+        "heading": "The Dangers of DIY Wasp Removal",
+        "content": "Applying standard chemical sprays or attempting to physically knock down a nest forces the colony into maximum defence mode. Wasps will instantly swarm and can sting repeatedly, which may trigger severe anaphylactic reactions. Blocking the entrance hole is also extremely dangerous, as the wasps will become trapped and chew through the interior walls of your property to escape into your living areas."
+      },
+       {
+        "heading": "Professional Eradication Process",
+        "content": "As registered BPCA professionals, we strictly utilize commercial-grade contact dust formulations injected directly under high pressure into the core of the nest. This specialized compound immediately neutralizes the guard wasps and is carried deep inside by returning foragers, destroying the entire colony within 2-4 hours from the inside out."
+      }
+    ],
+    "relatedService": "wasp-nest-removal",
+    "townLinks": [
+      { "label": "Wasp Nest Removal in Ashford", "url": "/areas/ashford/wasp-nest-removal" },
+      { "label": "Wasp Nest Removal in Maidstone", "url": "/areas/maidstone/wasp-nest-removal" }
+    ],
+    "relatedGuide": {
+      "label": "More wasp Advice",
+      "url": "/guides/wasps/signs-of-wasps"
+    },
+    "faqs": [
+      {
+        "question": "Can I block the entrance to the wasp nest?",
+        "answer": "No. Never block the entry point. The wasps will frantically chew through plasterboard or wood to find a new exit, often breaking straight into your bedroom or bathroom."
+      },
+      {
+        "question": "Do you remove the empty nest after treatment?",
+        "answer": "Once the colony is dead, the nest is completely inactive and wasps never reuse old nests. We can remove it if it is physically accessible, but leaving it hidden in a cavity is perfectly safe."
+      }
+    ],
+    "publishDate": "2024-06-15",
+    "image": "/images/blogimages/Wasps.webp"
+  },
+  {
+    "category": "fleas",
+    "slug": "flea-bites-vs-bed-bug-bites",
+    "title": "Flea Bites vs Bed Bug Bites",
+    "intro": "Accurately diagnose your exact indoor insect issue by strictly analyzing aggressive bite pattern geography. Learn to tell the difference between flea bites and bed bug bites so you can apply the correct targeted treatment.",
+    "sections": [
+      {
+        "heading": "Identifying Flea Bites",
+        "content": "Flea bites typically occur around the lower legs, ankles, and feet because these jumping insects reside in carpets or on pets close to the floor. The bites often appear as small, red, intensely itchy bumps surrounded by a red halo. They are usually completely random in their placement and rarely form distinct patterns, although you may find clusters in areas where socks or tight clothing restrict the insect."
+      },
+      {
+        "heading": "Identifying Bed Bug Bites",
+        "content": "Bed bugs feed while you sleep, aggressively targeting exposed skin on the upper body, such as the neck, face, arms, and shoulders. Their bites frequently appear in a distinct line or zig-zag pattern of three to four welts (often called 'breakfast, lunch, and dinner'). These bites are typically larger, flatter, and raised, taking several days to fully develop their intense itching sensation."
+      },
+       {
+        "heading": "Professional Treatment Differences",
+        "content": "Because the biological behaviour of these two insects is completely different, applying standard bug bombs will fail. Bed bugs require intense chemical crack-and-crevice treatments targeting bed frames and skirting boards, while fleas demand comprehensive carpet insecticidal growth regulators combined with veterinary pet treatments."
+      }
+    ],
+    "relatedService": "flea-treatment",
+    "townLinks": [
+      { "label": "Flea Treatment in Canterbury", "url": "/areas/canterbury/flea-treatment" },
+      { "label": "Bed Bug Treatment in Maidstone", "url": "/areas/maidstone/bed-bug-treatment" }
+    ],
+    "relatedGuide": {
+      "label": "More fleas Advice",
+      "url": "/guides/fleas/signs-of-fleas"
+    },
+    "faqs": [
+      {
+        "question": "Why am I getting bitten but my partner isn't?",
+        "answer": "Insects are drawn to body heat, exhaled carbon dioxide, and specific blood types. Additionally, some people have zero allergic reaction to bed bug saliva, meaning they are being bitten but show absolutely no physical marks."
+      },
+      {
+        "question": "Can I bring bed bugs home from work or hotels?",
+        "answer": "Yes. Bed bugs are exceptional hitchhikers. They easily attach to luggage, coats, or bags and heavily infest domestic properties within mere weeks."
+      }
+    ],
+    "publishDate": "2024-07-20",
+    "image": "/images/blogimages/Fleas.webp"
+  },
+  {
     "category": "rats",
     "slug": "how-to-get-rid-of-rats-in-your-garden",
     "title": "How To Get Rid Of Rats In Your Garden",
