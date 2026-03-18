@@ -92,11 +92,12 @@ export const Footer = () => {
               />
             </Link>
             <Image
-              src="/images/bpca-logo.png"
+              src="/images/BPCA%20Logo.png"
               alt="BPCA Certified"
               width={250}
               height={125}
               className="h-20 md:h-[100px] w-auto object-contain"
+              unoptimized
             />
           </div>
           <div className="text-center md:text-right text-xs leading-relaxed max-w-sm">
