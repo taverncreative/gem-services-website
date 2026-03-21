@@ -89,5 +89,73 @@ export const redirects: Record<string, string> = {
   "/blog/categories/moles-garden-pest-advice": "/guides",
   "/blog/categories/rodents-commercial-pest-advice": "/guides",
   "/blog/categories/general-advice-seasonal-pest-cont": "/guides",
-  "/blog/categories/rodents-home-pest-advice": "/guides"
+  "/blog/categories/rodents-home-pest-advice": "/guides",
+
+  // === Old Wix keyword pages (from Google Search Console errors) ===
+
+  // /rat/* keyword pages
+  "/rat/rats-in-loft": "/guides/rats/signs-you-have-rats-in-your-loft",
+  "/rat/rats-nest-in-garden": "/services/rat-control",
+  "/rat/rat-exterminator-near-me": "/services/rat-control",
+  "/rat/removing-rats-under-decking": "/services/rat-control",
+  "/rat/getting-rid-of-rats-in-garden": "/guides/rats/get-rid-of-rats-in-garden",
+  "/rat/rats-under-floorboards": "/guides/rats/how-to-get-rid-of-rats-under-floorboards",
+  "/rat/rat-control-near-me": "/services/rat-control",
+  "/rat/rats-under-shed": "/services/rat-control",
+  "/rat/rat-problem": "/services/rat-control",
+  "/rat/best-way-to-get-rid-of-rats-fast": "/guides/rats/how-to-get-rid-of-rats",
+
+  // /mice/* keyword pages
+  "/mice/rodent-mice-control": "/services/mouse-control",
+  "/mice/mice-pest-control": "/services/mouse-control",
+  "/mice/mice-problem": "/services/mouse-control",
+  "/mice/mice-infestation": "/services/mouse-control",
+  "/mice/home-infested-with-mice": "/services/mouse-control",
+  "/mice/mice-living-in-walls": "/services/mouse-control",
+  "/mice/mice-control": "/services/mouse-control",
+  "/mice/mice-under-floorboards": "/services/mouse-control",
+  "/mice/mouse-infestation": "/services/mouse-control",
+  "/mice/house-mice-control": "/services/mouse-control",
+  "/mice/mice-exterminator": "/services/mouse-control",
+  "/mice/mouse-treatment": "/services/mouse-control",
+  "/mice/mice-infestation-in-house": "/services/mouse-control",
+  "/mice/mice-rodent": "/services/mouse-control",
+  "/mice/mice-in-floorboards": "/services/mouse-control",
+  "/mice/mouse-nest-outside": "/services/mouse-control",
+  "/mice/mice-nest-in-wall": "/services/mouse-control",
+  "/mice/mice-and-rodent-control": "/services/mouse-control",
+  "/mice/mouse-infestation-in-home": "/services/mouse-control",
+  "/mice/mice-treatments": "/services/mouse-control",
+  "/mice/mice-rodent-control": "/services/mouse-control",
+
+  // Standalone old wasp pages
+  "/rat-pest-control": "/services/rat-control",
+  "/wasp-pest-control": "/services/wasp-nest-removal",
+  "/home-wasp-control": "/services/wasp-nest-removal",
+  "/wasp-nest-removal": "/services/wasp-nest-removal",
+  "/wasp-nest-removal-kent": "/services/wasp-nest-removal",
+  "/wasp-nest-removal-near-me": "/services/wasp-nest-removal",
+  "/wasp-nest-removal-tunbridge-wells": "/areas/tunbridge-wells/wasp-nest-removal",
+  "/wasp-nest-removal-tonbridge": "/areas/tonbridge/wasp-nest-removal",
+  "/wasp-nest-removal-gravesend": "/areas/gravesend/wasp-nest-removal",
+  "/wasp-nest-removal-medway": "/areas/medway/wasp-nest-removal",
+  "/wasp-control": "/services/wasp-nest-removal",
+  "/wasp-controlnear-me": "/services/wasp-nest-removal",
+  "/wasp-nest-exterminator": "/services/wasp-nest-removal",
+  "/wasp-exterminator-near-me": "/services/wasp-nest-removal",
+  "/wasp-pest-removal": "/services/wasp-nest-removal",
+  "/wasp-infestation": "/services/wasp-nest-removal",
+  "/eliminate-wasp-nest": "/services/wasp-nest-removal",
+  "/wasp-information-and-nest-signs": "/services/wasp-nest-removal",
+
+  // Old info pages
+  "/bedbug-information-ashford-kent": "/services/bed-bug-treatment",
+  "/flea-information-ashford-kent": "/services/flea-treatment",
+  "/pest-information-ashford-kent": "/services",
+  "/mole-information-ashford-kent": "/services/mole-control",
+
+  // Misc old pages
+  "/copy-of-wasps-facts": "/services/wasp-nest-removal",
+  "/general-8": "/",
+  "/blog-feed.xml": "/guides"
 };

@@ -19,9 +19,20 @@ const nextConfig: NextConfig = {
       })),
       {
         source: '/guides/:category',
-        destination: '/guides', // Redirect all category paths back to the main guides hub
+        destination: '/guides',
         permanent: true,
-      }
+      },
+      // Catch-all for any remaining old /rat/* and /mice/* keyword pages
+      {
+        source: '/rat/:path*',
+        destination: '/services/rat-control',
+        permanent: true,
+      },
+      {
+        source: '/mice/:path*',
+        destination: '/services/mouse-control',
+        permanent: true,
+      },
     ]
   },
 }
