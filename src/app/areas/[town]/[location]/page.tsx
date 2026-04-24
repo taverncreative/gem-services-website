@@ -21,7 +21,9 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { town, location } = await params
-  // /areas/kent/[service] is near-duplicate of /services/[service] — canonical to service page
+  if (!towns.includes(town) || !services.includes(location)) {
+    return { title: 'Page Not Found | GEM Services' }
+  }
   const canonicalPath = town === 'kent'
     ? `/services/${location}`
     : `/areas/${town}/${location}`

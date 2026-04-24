@@ -14,6 +14,10 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { town } = await params
+  // Prevent metadata leak on invalid/404 routes (e.g. /areas/dover)
+  if (!towns.includes(town)) {
+    return { title: 'Page Not Found | GEM Services' }
+  }
   return generateSEOMetadata({
     type: 'town',
     town,

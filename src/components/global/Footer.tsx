@@ -58,7 +58,8 @@ export const Footer = () => {
             <p className="font-bold text-lg text-brand-primary">Information</p>
             <address className="not-italic flex flex-col gap-2 text-sm text-neutral-300 mb-2">
               <p>GEM Services Pest Control</p>
-              <p>Serving Kent, United Kingdom</p>
+              <p>28 Sheldwich Cl</p>
+              <p>Ashford, Kent, TN23 5RX</p>
               <p>Phone: <a href="tel:07400372204" className="hover:text-white transition-colors">07400 372204</a></p>
             </address>
             <ul className="flex flex-col gap-2 text-sm text-neutral-300 mt-2">

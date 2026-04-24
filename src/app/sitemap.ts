@@ -74,8 +74,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     }
   }
 
-  // ── Guide pages ──
-  const guideRoutes: MetadataRoute.Sitemap = guides.map(guide => ({
+  // ── Guide pages (only hand-written guides, not templated ones) ──
+  const handWrittenGuides = guides.filter(guide => {
+    if (!guide.sections?.length) return false
+    const firstHeading = guide.sections[0].heading
+    // Templated guides stuff the title into headings like "Signs of the {TITLE} problem"
+    return !firstHeading.includes(guide.title) && !firstHeading.startsWith('Signs of the ')
+  })
+  const guideRoutes: MetadataRoute.Sitemap = handWrittenGuides.map(guide => ({
     url: `${baseUrl}/guides/${guide.category}/${guide.slug}`,
     lastModified: guide.publishDate ? new Date(guide.publishDate).toISOString() : now,
     changeFrequency: 'monthly',
