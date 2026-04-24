@@ -1,4 +1,4 @@
-import { ElementType } from 'react'
+import { serviceContent } from '@/lib/data/serviceContent'
 
 type Props = {
   service: string
@@ -7,8 +7,9 @@ type Props = {
 const formatTitle = (slug: string) => slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
 
 export const ServiceOverview = ({ service }: Props) => {
-  const serviceName = formatTitle(service)
-  const pestTitle = serviceName.replace(' Control', '').replace(' Removal', '').replace(' Treatment', '').replace(' Nest', '')
+  const sc = serviceContent[service]
+  const serviceName = sc ? `${sc.pestName} control` : formatTitle(service).toLowerCase()
+  const pestTitle = sc?.commonName || formatTitle(service).replace(/\s*(Control|Removal|Treatment|Nest)$/i, '')
 
   return (
     <section className="py-12 md:py-16 lg:py-20 px-4">

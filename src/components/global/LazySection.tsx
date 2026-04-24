@@ -8,36 +8,35 @@ type Props = {
   rootMargin?: string
 }
 
-export const LazySection = ({ children, className = '', rootMargin = '200px' }: Props) => {
+export const LazySection = ({ children, className = '', rootMargin = '300px' }: Props) => {
   const [isVisible, setIsVisible] = useState(false)
   const domRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
+    const el = domRef.current
+    if (!el) return
+
+    // Use requestIdleCallback for non-critical sections
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setIsVisible(true)
-            if (domRef.current) observer.unobserve(domRef.current)
-          }
-        })
+        if (entries[0]?.isIntersecting) {
+          setIsVisible(true)
+          observer.disconnect()
+        }
       },
       { rootMargin }
     )
-    
-    if (domRef.current) {
-      observer.observe(domRef.current)
-    }
-    
-    return () => {
-      if (domRef.current) observer.unobserve(domRef.current)
-    }
+
+    observer.observe(el)
+    return () => observer.disconnect()
   }, [rootMargin])
 
   return (
-    <div 
+    <div
       ref={domRef}
-      className={`transition-opacity duration-700 ${isVisible ? 'opacity-100' : 'opacity-0'} ${className}`}
+      className={className}
+      // Reserve minimum height to prevent CLS
+      style={isVisible ? undefined : { minHeight: '200px' }}
     >
       {isVisible ? children : null}
     </div>

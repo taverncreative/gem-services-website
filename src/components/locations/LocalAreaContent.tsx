@@ -1,6 +1,9 @@
 import Link from 'next/link'
-import { microLocations } from '@/lib/data/microLocations'
+import { microLocationData } from '@/lib/data/microLocations'
+import { townData } from '@/lib/data/towns'
+import { serviceContent } from '@/lib/data/serviceContent'
 import { guides } from '@/lib/data/guides'
+import { getVariedH2s, getVariedIntro, getVariedCTA, getVariedSectionOrder } from '@/lib/seo/contentVariation'
 
 type Props = {
   town: string
@@ -12,127 +15,203 @@ const formatTitle = (slug: string) => slug.split('-').map(w => w.charAt(0).toUpp
 
 export const LocalAreaContent = ({ town, service, parentTown }: Props) => {
   const townName = formatTitle(town)
-  const serviceName = formatTitle(service)
-  const parentName = parentTown ? formatTitle(parentTown) : null
-  
+  const sc = serviceContent[service]
+  const td = parentTown ? townData[parentTown] : townData[town]
+  const microData = parentTown && microLocationData[parentTown]
+    ? microLocationData[parentTown].find(m => m.slug === town)
+    : null
+
   const relevantGuide = guides.find(g => g.relatedService === service)
-  const siblings = parentTown && microLocations[parentTown] 
-    ? microLocations[parentTown].filter(a => a !== town).slice(0, 2)
+  const siblings = parentTown && microLocationData[parentTown]
+    ? microLocationData[parentTown].filter(a => a.slug !== town).slice(0, 2)
     : []
+
+  const pestName = sc?.commonName || formatTitle(service)
+  const areaName = microData?.name || townName
+  const parentName = parentTown ? formatTitle(parentTown) : null
+
+  // Get varied content
+  const h2s = getVariedH2s(town, service, parentTown)
+  const intro = getVariedIntro(town, service, parentTown)
+  const ctaContent = getVariedCTA(town, service, parentTown)
+  const sectionOrder = getVariedSectionOrder(town, service, parentTown)
+
+  // Build sections as an array, render in varied order
+  const sections: Record<number, React.ReactNode> = {}
+
+  // Section 0: Signs
+  if (sc?.signs && sc.signs.length > 0) {
+    sections[0] = (
+      <div key="signs">
+        <h2 className="text-4xl font-bold mb-6 text-neutral-dark">{h2s.signs}</h2>
+        <div className="prose prose-lg text-neutral-body max-w-none mb-8">
+          <p>
+            Knowing what to look for is the first step to dealing with a {sc.pestName} problem.
+            {td ? ` In ${areaName}, ${td.propertyTypes.slice(0, 2).join(' and ').toLowerCase()} are common, and each has different vulnerabilities.` : ''}
+            {' '}Here are the key signs to watch for:
+          </p>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {sc.signs.map((s, idx) => (
+            <div key={idx} className="bg-white p-5 rounded-xl border border-neutral-100 shadow-sm">
+              <h3 className="font-bold text-neutral-dark mb-2 text-base">{s.sign}</h3>
+              <p className="text-sm text-neutral-body leading-relaxed">{s.detail}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  // Section 1: Why here
+  sections[1] = (
+    <div key="why-here">
+      <h2 className="text-4xl font-bold mb-6 text-neutral-dark">{h2s.whyHere}</h2>
+      <div className="prose prose-lg text-neutral-body max-w-none">
+        {sc && <p>{sc.behavior}</p>}
+        {td && (
+          <p>
+            {td.pestPressureNote}
+            {td.localFeatures.length > 0 && (
+              <> Local features like {td.localFeatures.slice(0, 2).join(' and ')} influence where {sc?.pestName || 'pest'}s are most active in the area.</>
+            )}
+          </p>
+        )}
+        {microData && (
+          <p>
+            {microData.character} Properties here are {microData.predominantProperties.toLowerCase()}.
+            {microData.localFeature && <> {microData.localFeature} can influence pest activity in the immediate area.</>}
+          </p>
+        )}
+      </div>
+    </div>
+  )
+
+  // Section 2: Seasonal
+  if (sc?.seasonalExplanation) {
+    sections[2] = (
+      <div key="seasonal" className="bg-amber-50 border border-amber-200 p-6 rounded-xl">
+        <h3 className="text-xl font-bold mb-2 text-neutral-dark">Seasonal pattern in {areaName}</h3>
+        <p className="text-neutral-body">{sc.seasonalExplanation}</p>
+      </div>
+    )
+  }
+
+  // Section 3: Siblings / wider area
+  if (parentTown && siblings.length > 0) {
+    sections[3] = (
+      <div key="siblings" className="bg-brand-primary/5 p-6 rounded-xl border-l-4 border-brand-primary">
+        <h3 className="text-xl font-bold mb-2">Covering the wider {parentName} area</h3>
+        <p className="text-neutral-body">
+          Our team works across the {parentName} area, so we are never far away.
+          Alongside {areaName}, we also service <strong>{siblings[0].name}</strong>{siblings[1] && <> and <strong>{siblings[1].name}</strong></>} for {sc?.pestName || 'pest'} problems.
+        </p>
+      </div>
+    )
+  }
+
+  // Section 4: Treatment
+  if (sc?.treatmentSteps && sc.treatmentSteps.length > 0) {
+    sections[4] = (
+      <div key="treatment">
+        <h2 className="text-4xl font-bold mb-6 text-neutral-dark">{h2s.treatment}</h2>
+        <div className="space-y-4">
+          {sc.treatmentSteps.map((step, idx) => (
+            <div key={idx} className="flex gap-4 items-start">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-brand-primary text-white flex items-center justify-center font-bold text-lg">
+                {idx + 1}
+              </div>
+              <div>
+                <h3 className="font-bold text-neutral-dark text-lg mb-1">{step.step}</h3>
+                <p className="text-neutral-body">{step.description}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+        {sc.treatmentDuration && (
+          <p className="mt-6 text-sm text-neutral-muted italic">{sc.treatmentDuration}</p>
+        )}
+      </div>
+    )
+  }
+
+  // Section 5: Health risks
+  if (sc?.healthRisks && sc.healthRisks.length > 0 && sc.urgencyLevel !== 'low') {
+    sections[5] = (
+      <div key="risks" className="bg-red-50 border border-red-200 p-6 rounded-xl">
+        <h3 className="text-xl font-bold mb-3 text-red-900">Health and safety risks in {areaName}</h3>
+        <ul className="space-y-2">
+          {sc.healthRisks.map((risk, idx) => (
+            <li key={idx} className="flex gap-2 items-start text-neutral-body">
+              <span className="text-red-500 mt-1 flex-shrink-0">&#x26A0;</span>
+              <span>{risk}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
+
+  // Section 6: Prevention
+  if (sc?.preventionTips && sc.preventionTips.length > 0) {
+    sections[6] = (
+      <div key="prevention">
+        <h2 className="text-4xl font-bold mb-6 text-neutral-dark">{h2s.prevention}</h2>
+        <ul className="space-y-3">
+          {sc.preventionTips.map((tip, idx) => (
+            <li key={idx} className="flex gap-3 items-start">
+              <span className="text-brand-primary font-bold mt-0.5 flex-shrink-0">&#x2713;</span>
+              <span className="text-neutral-body">{tip}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    )
+  }
 
   return (
     <section className="py-12 md:py-16 lg:py-20 px-4">
       <div className="max-w-4xl mx-auto space-y-16">
-        
-        {/* Intro */}
-        <div>
-          <h2 className="text-4xl font-bold mb-6 text-neutral-dark">Local {serviceName.toLowerCase()} experts in {townName}</h2>
-          <div className="prose prose-lg text-neutral-body max-w-none">
-            <p>
-              When you are confronted with a pest issue, you need a local expert who is intimately familiar with the geography. 
-              We provide rapid emergency callouts directly to residential, commercial, 
-              and agricultural properties strictly situated across {townName}{parentName ? ` and the wider ${parentName} area` : ' alongside the surrounding Kent county routes'}.
-              In the event of a severe infestation, speed is paramount to protect your physical health and real estate investment.
-            </p>
-            <p>
-              We fully understand the unique specific challenges directly caused by Kent's shifting terrain and local climate. 
-              We come equipped with decades of experience, meaning we can eradicate the root cause of the infestation completely, 
-              safely, and discreetly. At GEM Services, implementing safe and effective pest treatments remains our absolute priority, actively ensuring your home or business remains fully protected over the longest possible term.
-            </p>
-          </div>
+
+        {/* Unique intro paragraph */}
+        <div className="prose prose-lg text-neutral-body max-w-none">
+          <p>{intro}</p>
         </div>
 
-        {/* Section 1 */}
-        <div>
-          <h2 className="text-4xl font-bold mb-6 text-neutral-dark">Why {serviceName.toLowerCase()} problems occur in {townName}</h2>
-          <div className="prose prose-lg text-neutral-body max-w-none">
-            <p>
-              The dense clustering of historic Victorian properties alongside rapid modern housing estate developments, combined perfectly with our beautiful county-wide green spaces, makes {townName} a highly attractive place for modern families to settle. 
-              Unfortunately, this identical combination of variables actively creates an unparalleled, highly abundant habitat for rapid pest population expansion. Older buildings often feature tiny structural gaps in masonry, eroded weep holes, or compromised rooflines, and busy local commercial centres readily provide near infinite food and foraging opportunities for opportunistic scavengers.
-            </p>
-            <p>
-              Seasonal weather changes, notably autumn temperature drops across Kent, constantly drive uninvited pests indoors as they become increasingly desperate in their frantic search for residual warmth and shelter. 
-              Once these pests breach your home interior, they immediately enter a dormant breeding phase, which can rapidly spiral into an uncontainable colony structure if not promptly intercepted by a highly trained professional {serviceName.toLowerCase()} operative possessing an active treatment license.
-            </p>
-            <p>
-              If you want to immediately learn more regarding our highly specific eradication formulations and targeted physical trapping methods, 
-              we strongly recommend you read our{' '}
-              <Link href={`/services/${service}`} className="font-semibold text-brand-primary hover:underline">
-                central {serviceName} platform hub
-              </Link>{' '}
-              for an expansive breakdown detailing our exact treatment solutions.
-            </p>
-          </div>
-        </div>
+        {/* Render sections in varied order */}
+        {sectionOrder.map(idx => sections[idx] || null)}
 
-        {/* Dynamic Context Hook (If Micro Location) */}
-        {parentTown && siblings.length > 0 && (
-          <div className="bg-brand-primary/5 p-6 rounded-xl border-l-4 border-brand-primary">
-            <h3 className="text-xl font-bold mb-2">Covering the wider {parentName} community</h3>
-            <p className="text-neutral-body">
-              Because our network operation is completely localised to the {parentName} radius, our vans are never far away. If you reside slightly outside {townName}, we also directly service properties in neighbouring sectors such as <strong>{formatTitle(siblings[0])}</strong> and <strong>{formatTitle(siblings[1])}</strong>, allowing us to accurately track broader pest migration patterns through the suburbs.
-            </p>
-          </div>
-        )}
-
-        {/* Dynamic Context Hook (If Guide is available) */}
+        {/* Guide link if available */}
         {relevantGuide && (
           <div className="bg-neutral-100 p-6 rounded-xl border border-neutral-200">
-            <h3 className="text-xl font-bold mb-2">Concerned about early signs?</h3>
+            <h3 className="text-xl font-bold mb-2">Want to learn more?</h3>
             <p className="text-neutral-body">
-              If you suspect an issue but aren't entirely sure, check out our expert guide on{' '}
+              Read our detailed guide on{' '}
               <Link href={`/guides/${relevantGuide.category}/${relevantGuide.slug}`} className="font-bold text-brand-primary hover:underline">
                 {relevantGuide.title}
               </Link>{' '}
-              to visually identify the danger signs before they escalate further.
+              for help identifying and understanding this pest.
             </p>
           </div>
         )}
 
-        {/* Section 2 */}
-        <div>
-          <h2 className="text-4xl font-bold mb-6 text-neutral-dark">Where {serviceName.toLowerCase()} nests are frequently found in {townName} homes</h2>
-          <div className="prose prose-lg text-neutral-body max-w-none">
-            <p>
-              The most persistent pests are biologically adapted through centuries of evolution to aggressively seek out the quietest, darkest, and most completely undisturbed architectural areas of your specific property limits. 
-              Inside typical {townName} properties, heavy infestations almost invariably begin directly inside the central loft space. Here, raw fibreglass insulation actively serves as the perfect thermal nesting insulation, remaining entirely free from frequent human disruption.
-            </p>
-            <p>
-              Outdoors, mature unkempt gardens, neglected compost bin structures, rotting garden sheds, and hollow wooden decking frames provide highly optimal, long-term sheltered structural harbourages. 
-              Navigating back inside the core house blueprint, deep internal wall cavities, heavily inaccessible voids located completely beneath wooden floorboards, and the perpetually warm external motor housing frames sitting behind bulky mechanical kitchen appliances operate as highly desirable prime targets for nesting queens. If you are experiencing heavy scratching audio reverberations at night or rapidly discover unexplained structural property damage, the central nexus nest is realistically situated within proximity.
-            </p>
-          </div>
-        </div>
-
-        {/* Section 3 */}
-        <div>
-          <h2 className="text-4xl font-bold mb-6 text-neutral-dark">Our methodical {serviceName.toLowerCase()} removal process in {townName}</h2>
-          <div className="prose prose-lg text-neutral-body max-w-none">
-            <p>
-              We pride ourselves on offering reliable and effective emergency pest control for properties in {townName}. The moment you book an urgent {serviceName.toLowerCase()} callout, our local pest control service will arrive at your property fully equipped to handle the situation quickly and safely. 
-            </p>
-            <p>
-              The treatment process begins with a detailed survey of your property's exterior and interior to accurately identify the extent of the infestation and locate how they are getting in. Once we have assessed the area, we apply safe and effective pest treatments to resolve the issue. Finally, we offer professional advice on how to pest-proof your property to protect it moving forward.
-            </p>
-          </div>
-        </div>
-
-        {/* Section 4 */}
+        {/* Varied CTA */}
         <div className="bg-neutral-dark text-white p-8 rounded-xl shadow-lg">
-          <h2 className="text-2xl font-bold mb-4">Emergency {serviceName.toLowerCase()} callouts in {townName}</h2>
+          <h2 className="text-2xl font-bold mb-4">{ctaContent.heading}</h2>
           <div className="prose prose-lg text-neutral-300 max-w-none">
+            <p>{ctaContent.body}</p>
             <p>
-              Significant pest emergencies always require rapid immediate intervention. We operate fluidly on a localised basis directly within {townName}, ensuring we consistently reach your property with exceptional speed to resolve the problem safely. We can arrive within a discreet, explicitly unmarked utility vehicle if requested, ensuring we protect your confidentiality and personal privacy completely from neighbours or active commercial clientele.
+              We operate across {parentTown ? `${areaName} and the wider ${parentName} area` : `${areaName} and the surrounding Kent area`}, arriving in an unmarked vehicle if you prefer discretion.
             </p>
             <p>
-              Beyond our {serviceName.toLowerCase()} removal solutions, we have extensive local experience helping homeowners and businesses deal with pest problems of all kinds. You can find out more about our local pest control across Kent by navigating to our general{' '}
+              Beyond {sc?.pestName || 'pest'} services, we handle all types of pest control locally. Visit our{' '}
               <Link href={parentTown ? `/areas/${parentTown}` : `/areas/${town}`} className="font-semibold text-white hover:text-brand-primary transition-colors underline">
                 Pest Control in {parentTown ? parentName : townName}
               </Link>{' '}
-              hub today.
+              page for the full range.
             </p>
             <p className="mt-6 font-bold text-xl text-white">
-              Do not let the problem escalate. Call our local {townName} service securely today on <a href="tel:01234567890" className="text-brand-primary hover:text-white transition-colors">01234 567 890</a> to secure an immediate rapid quotation!
+              Call us today on <a href="tel:07400372204" className="text-brand-primary hover:text-white transition-colors">07400 372204</a> for a fast quote.
             </p>
           </div>
         </div>

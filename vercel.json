@@ -1,0 +1,16 @@
+{
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "gemservices.uk"
+        }
+      ],
+      "destination": "https://www.gemservices.uk/:path*",
+      "permanent": true
+    }
+  ],
+  "trailingSlash": false
+}

@@ -24,6 +24,12 @@ const serviceDescriptions: Record<string, string> = {
   'mole-control': 'Professional mole trapping and control.',
   'fly-control': 'Domestic and commercial fly control solutions.',
   'moth-control': 'Expert moth extermination for clothes and carpets.',
+  'ant-control': 'Targeted ant colony elimination using professional bait treatments.',
+  'silverfish-control': 'Silverfish treatment and humidity advice for bathrooms and kitchens.',
+  'carpet-beetles': 'Carpet beetle larvae treatment to protect wool carpets and textiles.',
+  'stored-product-insects': 'Identification and elimination of pantry moths, weevils, and flour beetles.',
+  'cluster-flies': 'Loft treatments and preventive sprays for cluster fly hibernation.',
+  'drain-flies': 'Drain fly identification and breeding source elimination.',
 }
 
 export const ServiceGrid = () => {

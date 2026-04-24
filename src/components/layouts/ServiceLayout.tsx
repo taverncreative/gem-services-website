@@ -10,6 +10,8 @@ import { ReviewSchema } from '@/components/seo/schema/ReviewSchema'
 import { ServiceCTA } from '@/components/services/ServiceCTA'
 import { TownGuideLinks } from '@/components/global/TownGuideLinks'
 import { LazySection } from '@/components/global/LazySection'
+import { InternalLinks } from '@/components/global/InternalLinks'
+import { MidPageTrust } from '@/components/global/MidPageTrust'
 
 type Props = {
   service: string
@@ -34,6 +36,7 @@ export const ServiceLayout = ({ service }: Props) => {
       <ServiceOverview service={service} />
       <SignsSection service={service} />
       <TreatmentProcess service={service} />
+      <MidPageTrust />
       <WhyProfessional service={service} />
       <ServiceAreas service={service} />
       <LazySection>
@@ -43,6 +46,7 @@ export const ServiceLayout = ({ service }: Props) => {
       <ReviewSchema />
       <ReviewSection />
       <ServiceCTA />
+      <InternalLinks currentService={service} />
     </div>
   )
 }

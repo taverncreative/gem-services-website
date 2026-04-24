@@ -1,3 +1,6 @@
+import { serviceContent } from '@/lib/data/serviceContent'
+import { FAQSchema } from '@/components/seo/schema/FAQSchema'
+
 type Props = {
   service: string
 }
@@ -5,7 +8,8 @@ type Props = {
 const formatTitle = (slug: string) => slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
 
 export const ServiceFAQs = ({ service }: Props) => {
-  const pestName = formatTitle(service)
+  const sc = serviceContent[service]
+  const pestName = sc?.commonName || formatTitle(service).replace(/\s*(Control|Removal|Treatment|Nest)$/i, '')
 
   const faqs = [
     {
@@ -28,6 +32,7 @@ export const ServiceFAQs = ({ service }: Props) => {
 
   return (
     <section className="py-12 md:py-16 lg:py-20 px-4">
+      <FAQSchema faqs={faqs.map(f => ({ question: f.q, answer: f.a }))} />
       <div className="max-w-6xl mx-auto px-6">
         <h2 className="text-4xl font-bold text-center mb-10">{pestName} FAQs</h2>
         <div className="space-y-4">

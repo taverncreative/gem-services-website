@@ -38,8 +38,14 @@ export const ContactDetails = () => {
             <MapPin className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="font-bold text-lg text-neutral-dark">Coverage Regions</h3>
-            <p className="text-neutral-muted">Operating locally across East & West Kent.</p>
+            <h3 className="font-bold text-lg text-neutral-dark">Our Address</h3>
+            <address className="not-italic text-neutral-body leading-relaxed">
+              GEM Services<br />
+              28 Sheldwich Cl<br />
+              Ashford, Kent<br />
+              TN23 5RX
+            </address>
+            <p className="text-sm text-neutral-muted mt-2">Based in Ashford, covering all of Kent.</p>
           </div>
         </div>
       </div>

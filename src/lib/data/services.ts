@@ -1,4 +1,4 @@
-export const visibleServices = [
+export const services = [
   'wasp-nest-removal',
   'rat-control',
   'mouse-control',
@@ -7,10 +7,7 @@ export const visibleServices = [
   'moth-control',
   'flea-treatment',
   'bird-control',
-  'fly-control'
-]
-
-export const hiddenServices = [
+  'fly-control',
   'squirrel-removal',
   'cockroach-control',
   'ant-control',
@@ -21,4 +18,6 @@ export const hiddenServices = [
   'drain-flies'
 ]
 
-export const services = [...visibleServices, ...hiddenServices]
+// Backwards-compatible exports (all services are now visible)
+export const visibleServices = services
+export const hiddenServices: string[] = []

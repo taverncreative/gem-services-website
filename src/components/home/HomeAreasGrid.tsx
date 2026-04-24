@@ -2,13 +2,14 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { getTownImageFilename } from '@/lib/images/sourceTownImage'
 
+// Only link to towns that have built pages (exist in towns.ts)
 const targetTowns = [
   'ashford',
   'canterbury',
   'maidstone',
-  'dover',
-  'folkestone',
+  'dartford',
   'sevenoaks',
+  'tonbridge',
   'tunbridge-wells',
   'medway'
 ]

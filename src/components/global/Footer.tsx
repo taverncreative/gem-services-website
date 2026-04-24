@@ -15,7 +15,7 @@ export const Footer = () => {
           
           {/* Services Column */}
           <div className="flex flex-col gap-4">
-            <h3 className="font-bold text-lg text-brand-primary">Services</h3>
+            <p className="font-bold text-lg text-brand-primary">Services</p>
             <ul className="flex flex-col gap-2 text-sm text-neutral-300">
               {visibleServices.map(service => (
                 <li key={service}>
@@ -29,7 +29,7 @@ export const Footer = () => {
 
           {/* Areas Column */}
           <div className="flex flex-col gap-4">
-            <h3 className="font-bold text-lg text-brand-primary">Areas</h3>
+            <p className="font-bold text-lg text-brand-primary">Areas</p>
             <ul className="flex flex-col gap-2 text-sm text-neutral-300">
               {displayTowns.map(town => (
                 <li key={town}>
@@ -43,7 +43,7 @@ export const Footer = () => {
 
           {/* Company Column */}
           <div className="flex flex-col gap-4">
-            <h3 className="font-bold text-lg text-brand-primary">Company</h3>
+            <p className="font-bold text-lg text-brand-primary">Company</p>
             <ul className="flex flex-col gap-2 text-sm text-neutral-300">
               <li>
                 <Link href="/about" className="hover:text-white transition-colors">About</Link>
@@ -55,7 +55,7 @@ export const Footer = () => {
           </div>
           {/* Company & Legal Column */}
           <div className="flex flex-col gap-4">
-            <h3 className="font-bold text-lg text-brand-primary">Information</h3>
+            <p className="font-bold text-lg text-brand-primary">Information</p>
             <address className="not-italic flex flex-col gap-2 text-sm text-neutral-300 mb-2">
               <p>GEM Services Pest Control</p>
               <p>Serving Kent, United Kingdom</p>

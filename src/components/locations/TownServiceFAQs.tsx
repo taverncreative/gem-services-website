@@ -1,42 +1,86 @@
 import { FAQSchema } from '@/components/seo/schema/FAQSchema'
+import { serviceContent } from '@/lib/data/serviceContent'
+import { townData } from '@/lib/data/towns'
+import { microLocationData } from '@/lib/data/microLocations'
 
 type Props = {
   town: string
   service: string
+  parentTown?: string
 }
 
 const formatTitle = (slug: string) => slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
 
-export const TownServiceFAQs = ({ town, service }: Props) => {
+export const TownServiceFAQs = ({ town, service, parentTown }: Props) => {
   const townName = formatTitle(town)
-  const serviceName = formatTitle(service)
+  const sc = serviceContent[service]
+  const td = parentTown ? townData[parentTown] : townData[town]
+  const microData = parentTown
+    ? microLocationData[parentTown]?.find(m => m.slug === town)
+    : null
 
-  const faqs = [
-    {
-      question: `How much does ${serviceName.toLowerCase()} cost in ${townName}?`,
-      answer: `The cost of ${serviceName.toLowerCase()} in ${townName} depends on the severity of the infestation and the size of the property. Contact us today for a free, no-obligation quote tailored to your specific situation.`
-    },
-    {
-      question: `How quickly can pest control arrive in ${townName}?`,
-      answer: `We prioritise emergency callouts and aim to have a technician at your property in ${townName} as quickly as possible, often on the same day.`
-    },
-    {
-      question: `Are your treatments safe for pets and children?`,
-      answer: `Yes, all our treatments are strictly regulated and BPCA certified. We ensure that any bait or chemical treatments are placed safely and provide clear instructions on keeping your family and pets secure.`
-    }
-  ]
+  const pestName = sc?.commonName || formatTitle(service)
+  const areaName = microData?.name || townName
+  const serviceLower = pestName.toLowerCase()
+
+  // Build location-specific FAQs by injecting town/area names into service FAQs
+  // plus adding unique local questions
+  const localFaqs: Array<{ question: string; answer: string }> = []
+
+  // Location-specific response time FAQ
+  localFaqs.push({
+    question: `How quickly can you respond to ${serviceLower} problems in ${areaName}?`,
+    answer: `We cover ${areaName}${parentTown ? ` and the wider ${formatTitle(parentTown)} area` : ', Kent'} and typically respond same day or next day. ${sc?.responseTimeNote || 'Call us for the fastest available appointment.'}`,
+  })
+
+  // Localised service FAQs from serviceContent (take first 3, inject location)
+  if (sc?.faqs?.length) {
+    sc.faqs.slice(0, 3).forEach(faq => {
+      localFaqs.push({
+        question: faq.question.replace(/in Kent/gi, `in ${areaName}`),
+        answer: faq.answer,
+      })
+    })
+  }
+
+  // Cost FAQ with local context
+  localFaqs.push({
+    question: `How much does ${serviceLower} cost in ${areaName}?`,
+    answer: `Costs depend on the severity of the problem and property size. ${td ? `Properties in ${areaName} are typically ${td.propertyTypes[0]?.toLowerCase() || 'mixed'}, which can affect treatment scope.` : ''} Contact us for a free, no-obligation quote.`,
+  })
+
+  // Property-specific FAQ if we have town data
+  if (td) {
+    localFaqs.push({
+      question: `Why are ${serviceLower} common in ${areaName}?`,
+      answer: `${td.pestPressureNote} ${sc?.behavior ? sc.behavior.split('.')[0] + '.' : ''}`,
+    })
+  }
+
+  // Safety FAQ
+  localFaqs.push({
+    question: `Are your ${serviceLower} treatments safe for pets and children?`,
+    answer: `Yes. All treatments are BPCA certified and applied safely. We provide clear aftercare instructions to keep your family and pets protected.`,
+  })
 
   return (
     <section className="py-12 md:py-16 lg:py-20 px-4 bg-white">
-      <FAQSchema faqs={faqs} />
+      <FAQSchema faqs={localFaqs} />
       <div className="max-w-6xl mx-auto px-6">
-        <h2 className="text-4xl font-bold mb-8 text-center">Frequently asked questions</h2>
-        <div className="space-y-6">
-          {faqs.map((faq, idx) => (
-            <div key={idx} className="bg-background-soft p-6 rounded-xl border border-neutral-100">
-              <h3 className="text-lg font-bold mb-2 text-neutral-dark">{faq.question}</h3>
-              <p className="text-neutral-body leading-relaxed">{faq.answer}</p>
-            </div>
+        <h2 className="text-4xl font-bold mb-8 text-center">
+          {pestName} in {areaName} — Common Questions
+        </h2>
+        <div className="space-y-4">
+          {localFaqs.map((faq, idx) => (
+            <details key={idx} className="bg-background-soft rounded-xl border border-neutral-100 group">
+              <summary className="p-6 cursor-pointer font-bold text-neutral-dark flex items-center justify-between gap-4 list-none [&::-webkit-details-marker]:hidden">
+                <span>{faq.question}</span>
+                <span className="text-brand-primary transition-transform group-open:rotate-45 flex-shrink-0 text-2xl leading-none">+</span>
+              </summary>
+              <div className="px-6 pb-6">
+                <p className="text-neutral-body leading-relaxed">{faq.answer}</p>
+              </div>
+            </details>
           ))}
         </div>
       </div>

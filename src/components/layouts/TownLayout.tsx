@@ -7,6 +7,8 @@ import { ReviewSchema } from '@/components/seo/schema/ReviewSchema'
 import { TownCTA } from '@/components/locations/TownCTA'
 import { RecentJobs } from '@/components/global/RecentJobs'
 import { getTownImageFilename } from '@/lib/images/sourceTownImage'
+import { InternalLinks } from '@/components/global/InternalLinks'
+import { MidPageTrust } from '@/components/global/MidPageTrust'
 
 type Props = {
   town: string
@@ -28,10 +30,12 @@ export const TownLayout = ({ town }: Props) => {
       <TownAuthorityContent town={town} />
       <RecentJobs town={town} />
       <TownServices town={town} />
+      <MidPageTrust />
       <TownFAQs town={town} />
       <ReviewSchema />
       <ReviewSection />
       <TownCTA town={town} />
+      <InternalLinks currentTown={town} />
     </div>
   )
 }

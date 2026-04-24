@@ -1,3 +1,5 @@
+import { serviceContent } from '@/lib/data/serviceContent'
+
 type Props = {
   service: string
 }
@@ -5,8 +7,9 @@ type Props = {
 const formatTitle = (slug: string) => slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
 
 export const WhyProfessional = ({ service }: Props) => {
-  const serviceName = formatTitle(service)
-  const pestTitle = serviceName.replace(' Control', '').replace(' Removal', '').replace(' Treatment', '').replace(' Nest', '')
+  const sc = serviceContent[service]
+  // pestName = singular ("rat"), commonName = plural ("Rats")
+  const pestTitle = sc?.pestName || formatTitle(service).replace(/\s*(Control|Removal|Treatment|Nest)$/i, '').toLowerCase()
 
   return (
     <section className="py-12 md:py-16 lg:py-20 px-4">

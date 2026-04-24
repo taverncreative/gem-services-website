@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { guides } from '@/lib/data/guides'
+import { serviceContent } from '@/lib/data/serviceContent'
 
 type Props = {
   service: string
@@ -24,7 +25,9 @@ const serviceCategoryMap: Record<string, string> = {
 const formatTitle = (slug: string) => slug.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')
 
 export const SignsSection = ({ service }: Props) => {
-  const pestName = formatTitle(service)
+  const sc = serviceContent[service]
+  // Use the pest name (e.g. "rats"), not the service name (e.g. "Rat Control")
+  const pestName = sc?.commonName || formatTitle(service).replace(/\s*(Control|Removal|Treatment)$/i, '')
 
   const getDynamicSigns = (pest: string) => [
     { title: 'Unusual Noises & Sounds', desc: `Often the first sign of a ${pest.toLowerCase()} infestation is scratching or scurrying noises in walls, lofts, or under floorboards, especially at night.` },
